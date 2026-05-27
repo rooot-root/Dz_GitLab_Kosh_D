@@ -1,3 +1,11 @@
-test:
+stages:
+  - test
+
+test-job:
+  stage: test
+  tags:
+    - windows
   script:
-    - echo "Hello from GitLab Runner!"
+    - Write-Host "Hello from GitLab Runner!"
+    - Write-Host "Pipeline is working successfully!"
+    - Get-Date
