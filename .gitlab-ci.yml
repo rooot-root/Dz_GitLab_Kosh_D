@@ -1,0 +1,56 @@
+# Определяем стадии пайплайна
+stages:
+  - build
+  - test
+  - deploy
+
+# Переменные окружения
+variables:
+  CI_DEBUG_TRACE: "true"
+
+# Стадия 1: Сборка
+build-job:
+  stage: build
+  script:
+    - echo "🚀 Начинаем сборку проекта..."
+    - mkdir -p build
+    - echo "Сборка завершена $(date)" > build/info.txt
+    - cat build/info.txt
+  artifacts:
+    paths:
+      - build/
+    expire_in: 1 week
+  tags:
+    - docker
+
+# Стадия 2: Тестирование
+test-job:
+  stage: test
+  script:
+    - echo "🧪 Запускаем тесты..."
+    - echo "Проверка артефактов сборки..."
+    - if [ -f build/info.txt ]; then
+        echo "✅ Артефакт найден:";
+        cat build/info.txt;
+      else
+        echo "❌ Артефакт не найден";
+        exit 1;
+      fi
+    - echo "Запуск юнит-тестов..."
+    - echo "Все тесты успешно пройдены! ✅"
+  dependencies:
+    - build-job
+  tags:
+    - docker
+
+# Стадия 3: Развертывание (только для ветки main)
+deploy-job:
+  stage: deploy
+  script:
+    - echo "📦 Начинаем развертывание..."
+    - echo "Деплой на production сервер..."
+    - echo "Приложение успешно развернуто! 🚀"
+  only:
+    - main
+  tags:
+    - docker
