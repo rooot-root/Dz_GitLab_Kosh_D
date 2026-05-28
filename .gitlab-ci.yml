@@ -1,10 +1,5 @@
-stages:
-  - test
-
 test-job:
-  stage: test
   tags:
-    - windows
+    - shell
   script:
     - echo "Hello from GitLab Runner!"
-    - echo "Job completed successfully"
