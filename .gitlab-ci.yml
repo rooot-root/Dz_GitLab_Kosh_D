@@ -1,6 +1,4 @@
 test-job:
-  # tags:
-  #   - shell
   script:
     - echo "Hello from GitLab Runner!"
-    - echo "Pipeline is working!"
+    - echo "Pipeline is working successfully!"
